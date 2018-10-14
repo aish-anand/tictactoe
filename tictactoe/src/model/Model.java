@@ -1,9 +1,11 @@
 package model;
 
+import view.View;
+
 //this class keeps track of game board state and includes logic of the game.
 
 public class Model {
-	//will create a view next 
+	private View v;//will create a view next 
 	private int playerId; //new ID for each player
 	private int moves; //number of moves made
 	private char[][] gameBoard; //state of the board as a matrix
@@ -66,11 +68,11 @@ public class Model {
 			// and send message accordingly to view, also update the view
 			if(isWinner(x, y)) {
 				setMessage("Player " + playerId + " is Winner!");
-				v.isWinner(x, y, gameBoard[x][y], getMessage());
+//				v.isWinner(x, y, gameBoard[x][y], getMessage()); //need to implement this to show message
 			}
 			else if(getMoves()==0) {
 				setMessage("The game ended in a tie :(");
-				v.isWinner(x, y, gameBoard[x][y], getMessage());
+//				v.isWinner(x, y, gameBoard[x][y], getMessage());
 			}
 			else {
 				if(playerId%2 != 0) {
@@ -84,7 +86,7 @@ public class Model {
 
 				}
 				// update the board with message for next player
-				v.update(x, y, gameBoard[x][y], getMessage());
+//				v.update(x, y, gameBoard[x][y], getMessage());
 			}
 			
 		}
@@ -101,8 +103,7 @@ public class Model {
 				gameBoard[i][j] = '\0';
 			}
 		}
-		v.resetGame();
-		
+//		resetGame() here
 	}
 	
 	// check if there is a winner
