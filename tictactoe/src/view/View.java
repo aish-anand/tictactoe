@@ -2,6 +2,8 @@ package view;
 import controller.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import adapter.*;
 
@@ -22,13 +24,11 @@ import adapter.*;
     		this.playerturn = new JTextArea();   
     		this.c = new Controller();
     		this.a = new Adapter(c);
-    		
     		initialize();
-    		initButtons();
     }
     
     public void initialize () {
-	    	gui.setVisible(true);
+	    gui.setVisible(true);
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    gui.setSize(new Dimension(500, 350));
 	    gui.setResizable(true);
@@ -46,53 +46,58 @@ import adapter.*;
 	    messages.add(playerturn);
 	    playerturn.setText("Player 1 to play 'X'");
 	    
-	    reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                reset(); //like in main tictactoe.java
-            }
-        });
-	    
 	    for(int row = 0; row<3 ;row++) {
             for(int column = 0; column<3 ;column++) {
                 blocks[row][column] = new JButton();
                 blocks[row][column].setPreferredSize(new Dimension(75,75));
                 blocks[row][column].setText("");
                 game.add(blocks[row][column]);
-                blocks[row][column].addActionListener(new ActionListener() {
-                	 public void actionPerformed(ActionEvent e) {
-		            }
-                });
+                blocks[row][column].addActionListener(a);
             }
 	    }
+	    
+	    reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                resetGame(); //like in main tictactoe.java
+            }
+        });
 	}
     
-	public void initButtons() {
-	    for(int row = 0; row<3 ;row++) {
-	        for(int column = 0; column<3 ;column++) {
-	            blocks[row][column] = new JButton();
-	            blocks[row][column].setPreferredSize(new Dimension(75,75));
-	            blocks[row][column].setText("");
-//	            game.add(blocks[row][column]); //needs to refer to the game board.
-	            blocks[row][column].addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent e) {
-		            		// will call adapter here
-		            }
-	         
-		        });
-		    }
-		}
-	}
-	
     public void update() {
     	
     }
     
-    public void reset() {
-    	//like resetgame() in tictactoe.java
+    public boolean isReset(ActionEvent e) {
+		if(e.getSource() == reset)
+			return true;
+		return false;
+    }
+
+    public ArrayList<Integer> getMyPosition(ActionEvent e) {
+		ArrayList<Integer> position = new ArrayList<Integer>();
+		for(int row = 0; row<3 ;row++) {
+	        for(int column = 0; column<3 ;column++) {
+	        		if(e.getSource() == blocks[row][column]) {
+	        			position.add(row);
+	        			position.add(column);
+	        		}
+	        }
+		}
+		return position;
     }
     
+      
+    public void resetGame() {
+    	for(int row = 0;row<3;row++) {
+            for(int column = 0;column<3;column++) {
+                blocks[row][column].setText("");
+                blocks[row][column].setEnabled(true);
+            }
+        }
+    }
+   
     public void isWinner() {
-    	//to display winner
+    	//changes to display winner
     }
    
 }
