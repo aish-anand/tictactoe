@@ -3,14 +3,12 @@ import controller.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import adapter.*;
 
 //WIP View class
 
  public class View {
-	private Controller c;
 	private Adapter a;
 	private JFrame gui;
     private JButton[][] blocks;
@@ -25,6 +23,10 @@ import adapter.*;
     		this.c = new Controller();
     		this.a = new Adapter(c);
     		initialize();
+    }
+    
+    public void setActionListener(Controller c) {
+		this.a = new Adapter(c);
     }
     
     public void initialize () {
@@ -55,17 +57,16 @@ import adapter.*;
                 blocks[row][column].addActionListener(a);
             }
 	    }
-	    
-	    reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                resetGame(); //like in main tictactoe.java
-            }
-        });
+	    reset.addActionListener(a);
+	    gui.setVisible(true);
 	}
     
-    public void update() {
-    	
-    }
+    public void update(int row, int column, char symbol, String message) {
+ 		blocks[row][column].setText(Character.toString(symbol));
+ 		blocks[row][column].setEnabled(false);
+ 		playerturn.setText(message);
+ 	
+    }   
     
     public boolean isReset(ActionEvent e) {
 		if(e.getSource() == reset)
@@ -86,7 +87,6 @@ import adapter.*;
 		return position;
     }
     
-      
     public void resetGame() {
     	for(int row = 0;row<3;row++) {
             for(int column = 0;column<3;column++) {
@@ -96,8 +96,15 @@ import adapter.*;
         }
     }
    
-    public void isWinner() {
-    	//changes to display winner
-    }
-   
+    public void isWinner(int row, int column, char symbol, String message) {
+ 		blocks[row][column].setText(Character.toString(symbol));
+ 		blocks[row][column].setEnabled(false);
+ 		for(int i = 0; i<3 ;i++) {
+ 	        for(int j = 0; j<3 ;j++) {
+ 	        	blocks[i][j].setEnabled(false);
+ 	        }
+ 		}
+ 		playerturn.setText(message);
+ 
+     }
 }

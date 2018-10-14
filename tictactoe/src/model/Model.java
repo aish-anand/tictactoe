@@ -50,10 +50,13 @@ public class Model {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	public void registerView(View v) {
+		this.v = v;
+	}
 
 	// update the game board model
 	public void play(int x, int y) {
-		
 		if(getMoves() > 0){
 			// mark the board with x or o depending on playerId
 			if(playerId%2 != 0) 
@@ -68,11 +71,11 @@ public class Model {
 			// and send message accordingly to view, also update the view
 			if(isWinner(x, y)) {
 				setMessage("Player " + playerId + " is Winner!");
-//				v.isWinner(x, y, gameBoard[x][y], getMessage()); //need to implement this to show message
+				v.isWinner(x, y, gameBoard[x][y], getMessage()); //need to implement this to show message
 			}
 			else if(getMoves()==0) {
 				setMessage("The game ended in a tie :(");
-//				v.isWinner(x, y, gameBoard[x][y], getMessage());
+				v.isWinner(x, y, gameBoard[x][y], getMessage());
 			}
 			else {
 				if(playerId%2 != 0) {
@@ -86,7 +89,7 @@ public class Model {
 
 				}
 				// update the board with message for next player
-//				v.update(x, y, gameBoard[x][y], getMessage());
+				v.update(x, y, gameBoard[x][y], getMessage());
 			}
 			
 		}
@@ -103,6 +106,7 @@ public class Model {
 				gameBoard[i][j] = '\0';
 			}
 		}
+		v.resetGame();
 //		resetGame() here
 	}
 	

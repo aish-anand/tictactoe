@@ -1,21 +1,26 @@
 package adapter;
 import controller.*;
+import view.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+
 public class Adapter implements ActionListener {
 	private Controller c;
-     public Adapter(Controller c) {
+    private View v;
+	
+    public Adapter(Controller c) {
         this.c = c;
     }
+	
     public void actionPerformed(ActionEvent e) {
-        String event = "You clicked " + getName(e);
-    }
-    private String getName(ActionEvent e) {
-        if (e.getSource() instanceof JComponent) {
-            return ((JComponent)e.getSource()).getName();
-        } else {
-            throw new RuntimeException("Event from unexpected component");
+        if(v.isReset(e))
+        	c.setRequest();
+        else {
+        	ArrayList<Integer> position = v.getPosition(e);
+        	c.setRequest(position);
         }
     }
 }
