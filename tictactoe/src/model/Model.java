@@ -51,6 +51,7 @@ public class Model {
 		this.message = message;
 	}
 	
+	//constructor to initialize the reference of view class
 	public void registerView(View v) {
 		this.v = v;
 	}
@@ -58,20 +59,19 @@ public class Model {
 	// update the game board model
 	public void play(int x, int y) {
 		if(getMoves() > 0){
-			// mark the board with x or o depending on playerId
+			// mark the board with X or O
 			if(playerId%2 != 0) 
 				gameBoard[x][y] = 'X';
 			else 
 				gameBoard[x][y] = 'O';
 			
-			// reduce the count of moves left
+			// decrement moves
 			setMoves(--moves);
 			
-			// check if playerId has won or if game is tied,
-			// and send message accordingly to view, also update the view
+			// check if player has won or if game is tied and update view accordingly
 			if(isWinner(x, y)) {
 				setMessage("Player " + playerId + " is Winner!");
-				v.isWinner(x, y, gameBoard[x][y], getMessage()); //need to implement this to show message
+				v.isWinner(x, y, gameBoard[x][y], getMessage());
 			}
 			else if(getMoves()==0) {
 				setMessage("The game ended in a tie :(");
@@ -81,11 +81,11 @@ public class Model {
 				if(playerId%2 != 0) {
 					// toggle the playerId
 					setPlayerId(2);
-					setMessage("'O':  Player " +getPlayerId());
+					setMessage("Next Move by Player " +getPlayerId() + " - O");
 				}
 				else {
 					setPlayerId(1);
-					setMessage("'X':  Player " +getPlayerId());
+					setMessage("Next Move by Player " +getPlayerId() + " - X");
 
 				}
 				// update the board with message for next player
@@ -96,19 +96,19 @@ public class Model {
 		
 	}
 	
-	// function to clear the model and reset it to initial state
-	public void ResetModel() {
-		moves = 9;
-		setPlayerId(1);
-		setMessage("");
-		for(int i=0; i<gameBoard.length;i++) {
-			for(int j=0; j<gameBoard.length;j++) {
-				gameBoard[i][j] = '\0';
+	// clear the model and reset it to initial state
+		public void ResetModel() {
+			moves = 9;
+			setPlayerId(1);
+			setMessage("");
+			for(int i=0; i<gameBoard.length;i++) {
+				for(int j=0; j<gameBoard.length;j++) {
+					gameBoard[i][j] = '\0';
+				}
 			}
+			v.resetGame();
+			
 		}
-		v.resetGame();
-//		resetGame() here
-	}
 	
 	// check if there is a winner
 	public boolean isWinner(int x, int y) {
