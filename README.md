@@ -11,5 +11,5 @@ How to build and test (from Terminal):
 3. Running tests
 `ant test` - to run all tests part of the project.
 
-4.Running the project
+4. Running the project
 `java -cp bin TicTacToe` from the root directory to run the project after building it.
