@@ -1,0 +1,14 @@
+Code Review:
+Violation of best practices - 
+1.  Modularity
+	Issue: The given code for tic-tac-toe implements initializations and game logic in a prose format within a single file. This makes maintenance of code extremely difficult as it is not properly organized into hierarchies and logical sections. Also, the logic for checking the win condition uses redundant if conditions based on the origin button.
+ 	Fix: The code has been segregated into hierarchical classes and methods to avoid redundancy. The winning logic checks the game board as a whole irrespective of origin.
+2. Open Closed Principle
+ 	Issue: The entire logic and all methods of the game are in the driver class itself, and the member variables are public, thus exposing it to the end user for modification. For example, the GUI cannot be changed without making changes to the logic of the game. A good design should provide separation of data and logic.
+ 	Fix: The code has been separated into Model, View and Controller classes with each class having its own private member variables that cannot be accessed or modified by the outside world.
+3. Extensibility
+	Issue: The absence of modularity in the design makes it hard to implement different methods, whether it is to process new inputs or having different visualisation without changing the other parts of the code.
+	Fix: The MVC approach is designed with extensibility in mind, decoupling the logic from the presentation and control flow. Now that code is more maintainable, reusable, understandable by encapsulating all the functionality behind well-defined interfaces, to implement the extensions like reading moves from the terminal would mean just reusing the adapter objects and writing a wrapper class for the rest of the logic.
+4. Testability
+	Issue: The entire logic of the game is within a single class and bugs and edge cases become hard to test because it is difficult to keep track of which component/components are leading to failure.
+	Fix: The separation of logic with the mvc design pattern in mind easily allows for tests to be written even before the development begins. This allows for easy identification of faulty components. 
